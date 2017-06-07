@@ -1,0 +1,66 @@
+# $Id: PKGBUILD 165582 2016-03-08 08:32:11Z jgc $
+# Maintainer: Xyne <ca dot archlinux at xyne, backwards>
+# Contributor:  Bartłomiej Piotrowski <nospam@bpiotrowski.pl>
+# Contributor: Aaron Griffin <aaron@archlinux.org>
+# Contributor: dorphell <dorphell@archlinux.org>
+
+pkgname=cmus-git
+pkgver=v2.8.0.rc0.48.gb382e6f
+pkgrel=1
+pkgdesc='Feature-rich ncurses-based music player'
+arch=('i686' 'x86_64')
+url="https://cmus.github.io/"
+license=('GPL')
+provides=('cmus')
+conflicts=('cmus')
+depends=('ncurses' 'libcue' 'libdiscid')
+makedepends=(
+  'faad2'
+  'ffmpeg'
+  'flac'
+  'libao'
+  'libcdio-paranoia'
+  'libmad'
+  'libmodplug'
+  'libmp4v2'
+  'libmpcdec'
+  'libpulse'
+  'libvorbis'
+  'opusfile'
+  'wavpack'
+  'git'
+)
+optdepends=('alsa-lib: for ALSA output plugin support'
+            'libao: for AO output plugin support'
+            'libpulse: for PulseAudio output plugin support'
+            'faad2: for AAC input plugin support'
+            'ffmpeg: for ffmpeg input plugin support'
+            'flac: for flac input plugin support'
+            'libmad: for mp3 input plugin support'
+            'libmodplug: for modplug input plugin support'
+            'libmp4v2: for mp4 input plugin support'
+            'libmpcdec: for musepack input plugin support'
+            'libvorbis: for vorbis input plugin support'
+            'libcdio-paranoia: for cdio support'
+            'opusfile: for opus input plugin support'
+            'wavpack: for wavpack input plugin support')
+source=("$pkgname::git+https://github.com/cmus/cmus.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$pkgname"
+  tag='2.8.0'
+  echo "$(git describe --tags | sed 's/\-/./g' )"
+}
+
+build() {
+  cd "$srcdir/$pkgname"
+  ./configure prefix=/usr
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname"
+  make DESTDIR="$pkgdir" install
+  install -Dm644 contrib/_cmus "$pkgdir"/usr/share/zsh/site-functions/_cmus
+}
