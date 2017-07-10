@@ -33,13 +33,14 @@ pkgname=chromium-vaapi
 pkgver=59.0.3071.115
 pkgrel=1
 _launcher_ver=5
+_freetype_rev=5a3490e054bda8a318ebde482
 pkgdesc="Chromium compiled with VA-API for Intel Graphics"
 arch=('i686' 'x86_64')
 url="https://www.chromium.org/Home"
 license=('BSD')
 depends=('gtk3' 'nss' 'alsa-lib' 'xdg-utils' 'libxss' 'libcups' 'libgcrypt'
-         'ttf-font' 'systemd' 'dbus' 'libpulse' 'pciutils' 'desktop-file-utils'
-         'hicolor-icon-theme')
+         'ttf-font' 'systemd' 'dbus' 'libpulse' 'pciutils' 'json-glib' 
+         'desktop-file-utils' 'hicolor-icon-theme')
 depends+=(${_system_libs[@]})
 provides=('chromium')
 conflicts=('chromium')
@@ -51,11 +52,12 @@ optdepends=('kdialog: needed for file dialogs in KDE'
 install=chromium.install
 source=(https://commondatastorage.googleapis.com/chromium-browser-official/chromium-$pkgver.tar.xz
         chromium-launcher-$_launcher_ver.tar.gz::https://github.com/foutrelis/chromium-launcher/archive/v$_launcher_ver.tar.gz
-                chromium-freetype2::git+https://chromium.googlesource.com/chromium/src/third_party/freetype2#commit=$_freetype_rev
+        chromium-freetype2::git+https://chromium.googlesource.com/chromium/src/third_party/freetype2#commit=$_freetype_rev
         chromium.desktop
         chromium-system-ffmpeg-r6.patch
         0001-ClientNativePixmapFactoryDmabuf-uses-ioctl-instead-o.patch
         0001-Fix-kernel-version-condition-for-including-dma-buf.h.patch
+        0001-Clip-FreeType-glyph-bitmap-to-mask.patch
         chromium-blink-gcc7.patch
         chromium-v8-gcc7.patch
         chromium-widevine.patch
@@ -67,6 +69,7 @@ sha256sums=('37cbc9955ae3b25cd4e9851a82ea97a0035021cc90658902938ad1c20f263170'
             '2fc21f48b95f9f2c2bd8576742fcf8028a8877c6b6e96c04d88184915982234e'
             '9c081c84a4f85dbef82a9edf34cf0b1e8377c563874fd9c1b4efddf1476748f9'
             '42eb6ada30d5d507f2bda2d2caece37e397e7086bc0d430db776fad143562fb6'
+            'e60aa0ff01f8bee67e45fde7bbe932901194984673ec4b10ea82bba1bace0cd7'
             'f94310a7ba9b8b777adfb4442bcc0a8f0a3d549b2cf4a156066f8e2e28e2f323'
             '46dacc4fa52652b7d99b8996d6a97e5e3bac586f879aefb9fb95020d2c4e5aec'
             'd6fdcb922e5a7fbe15759d39ccc8ea4225821c44d98054ce0f23f9d1f00c9808'
